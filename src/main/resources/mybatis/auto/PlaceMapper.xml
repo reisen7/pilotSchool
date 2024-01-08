@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fc.pilotSchool.mapper.auto.PlaceMapper">
+  <resultMap id="BaseResultMap" type="com.fc.pilotSchool.model.auto.Place">
+    <result column="id" jdbcType="VARCHAR" property="id" />
+    <result column="place_name" jdbcType="VARCHAR" property="placeName" />
+    <result column="place_address" jdbcType="VARCHAR" property="placeAddress" />
+    <result column="place_master" jdbcType="VARCHAR" property="placeMaster" />
+    <result column="master_phone" jdbcType="VARCHAR" property="masterPhone" />
+    <result column="place_status" jdbcType="VARCHAR" property="placeStatus" />
+    <result column="cost" jdbcType="VARCHAR" property="cost" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+  
+     	id,
+     	place_name,
+     	place_address,
+     	place_master,
+     	master_phone,
+     	place_status,
+   	  	cost
+  	
+  </sql>
+  
+  <select id="selectByExample" parameterType="com.fc.pilotSchool.model.auto.PlaceExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from place
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from place
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from place
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.fc.pilotSchool.model.auto.PlaceExample">
+    delete from place
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  
+  <insert id="insert" parameterType="com.fc.pilotSchool.model.auto.Place">
+    insert into place (
+      id,
+      place_name,
+      place_address,
+      place_master,
+      master_phone,
+      place_status,
+   	  cost
+    )
+    values (
+     	#{id,jdbcType=VARCHAR},
+     	#{placeName,jdbcType=VARCHAR},
+     	#{placeAddress,jdbcType=VARCHAR},
+     	#{placeMaster,jdbcType=VARCHAR},
+     	#{masterPhone,jdbcType=VARCHAR},
+     	#{placeStatus,jdbcType=VARCHAR},
+   	  #{cost,jdbcType=VARCHAR}
+    )
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.fc.pilotSchool.model.auto.Place">
+    insert into place
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+    
+      <if test="id != null">
+        id,
+      </if>
+    
+      <if test="placeName != null">
+        place_name,
+      </if>
+    
+      <if test="placeAddress != null">
+        place_address,
+      </if>
+    
+      <if test="placeMaster != null">
+        place_master,
+      </if>
+    
+      <if test="masterPhone != null">
+        master_phone,
+      </if>
+    
+      <if test="placeStatus != null">
+        place_status,
+      </if>
+    
+      <if test="cost != null">
+        cost,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="placeName != null">
+        #{placeName,jdbcType=VARCHAR},
+      </if>
+      <if test="placeAddress != null">
+        #{placeAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="placeMaster != null">
+        #{placeMaster,jdbcType=VARCHAR},
+      </if>
+      <if test="masterPhone != null">
+        #{masterPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="placeStatus != null">
+        #{placeStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="cost != null">
+        #{cost,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <select id="countByExample" parameterType="com.fc.pilotSchool.model.auto.PlaceExample" resultType="java.lang.Long">
+    select count(*) from place
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  
+  <update id="updateByExampleSelective" parameterType="map">
+    update place
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.placeName != null">
+        place_name = #{record.placeName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.placeAddress != null">
+        place_address = #{record.placeAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.placeMaster != null">
+        place_master = #{record.placeMaster,jdbcType=VARCHAR},
+      </if>
+      <if test="record.masterPhone != null">
+        master_phone = #{record.masterPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.placeStatus != null">
+        place_status = #{record.placeStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cost != null">
+        cost = #{record.cost,jdbcType=VARCHAR},
+      </if>
+     
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  
+  
+  <update id="updateByExample" parameterType="map">
+    update place
+    set
+    	 
+    	 id = #{record.id,jdbcType=VARCHAR},
+    	 
+    	 place_name = #{record.placeName,jdbcType=VARCHAR},
+    	 
+    	 place_address = #{record.placeAddress,jdbcType=VARCHAR},
+    	 
+    	 place_master = #{record.placeMaster,jdbcType=VARCHAR},
+    	 
+    	 master_phone = #{record.masterPhone,jdbcType=VARCHAR},
+    	 
+    	 place_status = #{record.placeStatus,jdbcType=VARCHAR},
+    	 
+    	 cost = #{record.cost,jdbcType=VARCHAR}
+    
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.fc.pilotSchool.model.auto.Place">
+    update place
+    <set>
+      
+      <if test="placeName != null and placeName != ''">
+        place_name = #{placeName,jdbcType=VARCHAR},
+      </if>
+      
+      <if test="placeAddress != null and placeAddress != ''">
+        place_address = #{placeAddress,jdbcType=VARCHAR},
+      </if>
+      
+      <if test="placeMaster != null and placeMaster != ''">
+        place_master = #{placeMaster,jdbcType=VARCHAR},
+      </if>
+      
+      <if test="masterPhone != null and masterPhone != ''">
+        master_phone = #{masterPhone,jdbcType=VARCHAR},
+      </if>
+      
+      <if test="placeStatus != null and placeStatus != ''">
+        place_status = #{placeStatus,jdbcType=VARCHAR},
+      </if>
+      
+      <if test="cost != null and cost != ''">
+        cost = #{cost,jdbcType=VARCHAR},
+      </if>
+    </set>
+    
+    where 
+    
+    id = #{id,jdbcType=VARCHAR}
+  
+  </update>
+
+	
+
+  <update id="updateByPrimaryKey" parameterType="com.fc.pilotSchool.model.auto.Place">
+    update place
+    set 
+	  
+		place_name = #{placeName,jdbcType=VARCHAR},
+	  
+		place_address = #{placeAddress,jdbcType=VARCHAR},
+	  
+		place_master = #{placeMaster,jdbcType=VARCHAR},
+	  
+		master_phone = #{masterPhone,jdbcType=VARCHAR},
+	  
+		place_status = #{placeStatus,jdbcType=VARCHAR},
+		
+		cost = #{cost,jdbcType=VARCHAR}
+	
+    where 
+    
+    id = #{id,jdbcType=VARCHAR}
+    
+  </update>
+  
+   
+</mapper>

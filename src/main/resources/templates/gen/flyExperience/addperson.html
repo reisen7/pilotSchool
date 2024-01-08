@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="include :: header('飞行体验活动管理修改')"/>
+
+    <script type="text/html" id="flyExperience-bar">
+
+        <button sa:hasPermission="gen:flyExperience:remove" class="pear-btn pear-btn-danger pear-btn-sm" lay-event="remove" title="删除"><i class="layui-icon layui-icon-delete"></i>
+        </button>
+    </script>
+</head>
+<body>
+<form class="layui-form" action=""  th:object="${FlyExperience}">
+    <div class="mainBox">
+        <div class="main-container">
+            <div class="main-container">
+
+<!--                <div class="layui-form-item layui-hide">-->
+<!--                    <label class="layui-form-label">标识id</label>-->
+<!--                    <div class="layui-input-block">-->
+<!--                        <input type="text" th:value="*{id}" name="id" lay-verify="title"-->
+<!--                               autocomplete="off" class="layui-input">-->
+<!--                    </div>-->
+<!--                </div>-->
+
+
+                <form class="layui-form" action="" onsubmit="return false">
+                    <input id="experienceid" type="hidden" th:value="${experienceid}">
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">姓名</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="pPhone" id="pPhone" required  lay-verify="required" placeholder="请输入输入框内容" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">电话</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="pName" id="pName" required  lay-verify="required" placeholder="请输入输入框内容" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <button class="layui-btn" lay-submit lay-filter="formDemo">添加</button>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="layui-card">
+                    <div class="layui-card-body">
+                        <table id="PExperience-table" lay-filter="PExperience-table"></table>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+    <div class="bottom">
+        <div class="button-container">
+            <button type="submit" class="layui-btn layui-btn-normal layui-btn-sm" lay-submit=""
+                    lay-filter="flyExperience-update">
+                <i class="layui-icon layui-icon-ok"></i>
+                提交
+            </button>
+            <button type="reset" class="layui-btn layui-btn-primary layui-btn-sm">
+                <i class="layui-icon layui-icon-refresh"></i>
+                重置
+            </button>
+        </div>
+    </div>
+</form>
+<th:block th:include="include :: footer"/>
+<script>
+    layui.use(['form','laydate','table','jquery'], function () {
+        let form = layui.form;
+        let $ = layui.jquery;
+        let MODULE_PATH = rootPath+"/PExperienceController";
+        var laydate = layui.laydate;
+        var e_id = $("#experienceid").val();
+        //同时绑定多个
+        lay('.datetime-input').each(function(){
+            laydate.render({
+                elem: this
+                ,trigger: 'click'
+                ,type: 'datetime'
+            });
+        });
+
+
+        form.on('submit(flyExperience-update)', function (data) {
+            let loader = layer.load();
+            parent.layer.close(parent.layer.getFrameIndex(window.name));//关闭当前页
+            return false;
+        });
+
+        form.on('submit(formDemo)', function (data) {
+            let loader = layer.load();
+            $.ajax({
+                url: MODULE_PATH+'/add/'+e_id,
+                data: data.field,
+                dataType: 'json',
+                contentType: 'application/x-www-form-urlencoded',
+                type: 'post',
+                success: function (result) {
+                    if (result.code==200) {
+                        layer.msg(result.msg, {icon: 1, time: 1000}, function () {
+                            // parent.layer.close(parent.layer.getFrameIndex(window.name));//关闭当前页
+                            layui.table.reload("PExperience-table");
+                            $("#pName").val("");
+                            $("#pPhone").val("")
+                            layer.close(loader);
+                        });
+                    } else {
+                        layer.msg(result.msg, {icon: 2, time: 1000});
+                        layer.close(loader);
+                    }
+                }
+            })
+            return false;
+        });
+    })
+</script>
+</body>
+<script>
+    layui.use(['table', 'form', 'jquery'], function () {
+        let table = layui.table;
+        let form = layui.form;
+        let $ = layui.jquery;
+        var e_id = $("#experienceid").val();
+
+        let MODULE_PATH = "/PExperienceController/";
+        let cols = [
+            [
+
+                {title: '姓名', field: 'pPhone', align: 'center'},
+
+                {title: '电话', field: 'pName', align: 'center'},
+
+                {title: '操作', toolbar: '#flyExperience-bar', align: 'center'}
+            ]
+        ]
+
+        //table表单列表
+        table.render({
+            elem: '#PExperience-table',
+            url: MODULE_PATH + 'list/'+e_id,
+            page: true,
+            method: 'get',
+            cols: cols,
+            skin: 'line',
+            toolbar: '#flyExperience-toolbar',
+            defaultToolbar: [{
+                layEvent: 'refresh',
+                icon: 'layui-icon-refresh',
+            }, 'filter', 'print', 'exports']
+        });
+
+        //table图标事件绑定
+        table.on('tool(PExperience-table)', function (obj) {
+            if (obj.event === 'remove') {
+                window.remove(obj);
+            } else if (obj.event === 'edit') {
+                window.edit(obj);
+            }
+        });
+
+        //table工具栏绑定
+        table.on('toolbar(PExperience-table)', function (obj) {
+            if (obj.event === 'add') {
+                window.add();
+            } else if (obj.event === 'refresh') {
+                window.refresh();
+            } else if (obj.event === 'batchRemove') {
+                window.batchRemove(obj);
+            }
+        });
+
+        //查询按钮绑定
+        form.on('submit(flyExperience-query)', function (data) {
+            table.reload('PExperience-table', {page: {curr: 1}, where: data.field})
+            return false;
+        });
+
+
+        //添加
+        window.add = function () {
+            layer.open({
+                type: 2,
+                title: '新增',
+                shade: 0.1,
+                area: ['500px', '500px'],
+                content: MODULE_PATH + 'add'
+            });
+        }
+        //修改
+        window.edit = function (obj) {
+            layer.open({
+                type: 2,
+                title: '修改',
+                shade: 0.1,
+                area: ['500px', '500px'],
+                content: MODULE_PATH + 'edit/' + obj.data['id']
+            });
+        }
+        //删除
+        window.remove = function (obj) {
+            layer.confirm('确定要删除该数据', {icon: 3, title: '提示'}, function (index) {
+                layer.close(index);
+                let loading = layer.load();
+                $.ajax({
+                    url: MODULE_PATH + "remove?ids=" + obj.data['id'],
+                    dataType: 'json',
+                    type: 'delete',
+                    success: function (result) {
+                        layer.close(loading);
+                        if (result.code==200) {
+                            layer.msg(result.msg, {icon: 1, time: 1000}, function () {
+                                obj.del();
+                            });
+                        } else {
+                            layer.msg(result.msg, {icon: 2, time: 1000});
+                        }
+                    }
+                })
+            });
+        }
+
+        //批量删除
+        window.batchRemove = function (obj) {
+            let data = table.checkStatus(obj.config.id).data;
+            if (data.length === 0) {
+                layer.msg("未选中数据", {icon: 3, time: 1000});
+                return false;
+            }
+            let ids = "";
+            for (let i = 0; i < data.length; i++) {
+                ids += data[i].id + ",";
+            }
+            ids = ids.substr(0, ids.length - 1);
+            layer.confirm('确定要删除这些数据', {icon: 3, title: '提示'}, function (index) {
+                layer.close(index);
+                let loading = layer.load();
+                $.ajax({
+                    url: MODULE_PATH + "remove?ids=" + ids,
+                    dataType: 'json',
+                    type: 'delete',
+                    success: function (result) {
+                        layer.close(loading);
+                        if (result.code==200) {
+                            layer.msg(result.msg, {icon: 1, time: 1000}, function () {
+                                table.reload('PExperience-table');
+                            });
+                        } else {
+                            layer.msg(result.msg, {icon: 2, time: 1000});
+                        }
+                    }
+                })
+            });
+        }
+
+
+        //刷新按钮
+        window.refresh = function () {
+            table.reload('PExperience-table');
+        }
+    })
+</script>
+</html>

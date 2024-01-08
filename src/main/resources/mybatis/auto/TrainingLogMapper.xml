@@ -1,0 +1,382 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fc.pilotSchool.mapper.auto.TrainingLogMapper">
+  <resultMap id="BaseResultMap" type="com.fc.pilotSchool.model.auto.TrainingLog">
+    <result column="id" jdbcType="VARCHAR" property="id" />
+    <result column="s_id" jdbcType="VARCHAR" property="sId" />
+    <result column="training_place" jdbcType="VARCHAR" property="trainingPlace" />
+    <result column="training_content" jdbcType="VARCHAR" property="trainingContent" />
+    <result column="t_id" jdbcType="INTEGER" property="tId" />
+    <result column="training_record" jdbcType="VARCHAR" property="trainingRecord" />
+    <result column="train_id" jdbcType="INTEGER" property="trainId" />
+    <result column="train_starttime" jdbcType="TIMESTAMP" property="trainStarttime" />
+    <result column="train_endtime" jdbcType="TIMESTAMP" property="trainEndtime" />
+    <result column="training_task" jdbcType="VARCHAR" property="trainingTask" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+  
+     	id,
+     	s_id,
+     	training_place,
+     	training_content,
+     	t_id,
+     	training_record,
+     	train_id,
+     	train_starttime,
+     	train_endtime,
+   	  	training_task
+  	
+  </sql>
+  
+  <select id="selectByExample" parameterType="com.fc.pilotSchool.model.auto.TrainingLogExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from training_log
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from training_log
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from training_log
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.fc.pilotSchool.model.auto.TrainingLogExample">
+    delete from training_log
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  
+  <insert id="insert" parameterType="com.fc.pilotSchool.model.auto.TrainingLog">
+    insert into training_log (
+      id,
+      s_id,
+      training_place,
+      training_content,
+      t_id,
+      training_record,
+      train_id,
+      train_starttime,
+      train_endtime,
+   	  training_task
+    )
+    values (
+     	#{id,jdbcType=VARCHAR},
+     	#{sId,jdbcType=VARCHAR},
+     	#{trainingPlace,jdbcType=VARCHAR},
+     	#{trainingContent,jdbcType=VARCHAR},
+     	#{tId,jdbcType=INTEGER},
+     	#{trainingRecord,jdbcType=VARCHAR},
+     	#{trainId,jdbcType=INTEGER},
+     	#{trainStarttime,jdbcType=TIMESTAMP},
+     	#{trainEndtime,jdbcType=TIMESTAMP},
+   	  #{trainingTask,jdbcType=VARCHAR}
+    )
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.fc.pilotSchool.model.auto.TrainingLog">
+    insert into training_log
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+    
+      <if test="id != null">
+        id,
+      </if>
+    
+      <if test="sId != null">
+        s_id,
+      </if>
+    
+      <if test="trainingPlace != null">
+        training_place,
+      </if>
+    
+      <if test="trainingContent != null">
+        training_content,
+      </if>
+    
+      <if test="tId != null">
+        t_id,
+      </if>
+    
+      <if test="trainingRecord != null">
+        training_record,
+      </if>
+    
+      <if test="trainId != null">
+        train_id,
+      </if>
+    
+      <if test="trainStarttime != null">
+        train_starttime,
+      </if>
+    
+      <if test="trainEndtime != null">
+        train_endtime,
+      </if>
+    
+      <if test="trainingTask != null">
+        training_task,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="sId != null">
+        #{sId,jdbcType=VARCHAR},
+      </if>
+      <if test="trainingPlace != null">
+        #{trainingPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="trainingContent != null">
+        #{trainingContent,jdbcType=VARCHAR},
+      </if>
+      <if test="tId != null">
+        #{tId,jdbcType=INTEGER},
+      </if>
+      <if test="trainingRecord != null">
+        #{trainingRecord,jdbcType=VARCHAR},
+      </if>
+      <if test="trainId != null">
+        #{trainId,jdbcType=INTEGER},
+      </if>
+      <if test="trainStarttime != null">
+        #{trainStarttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="trainEndtime != null">
+        #{trainEndtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="trainingTask != null">
+        #{trainingTask,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <select id="countByExample" parameterType="com.fc.pilotSchool.model.auto.TrainingLogExample" resultType="java.lang.Long">
+    select count(*) from training_log
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  
+  <update id="updateByExampleSelective" parameterType="map">
+    update training_log
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sId != null">
+        s_id = #{record.sId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.trainingPlace != null">
+        training_place = #{record.trainingPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="record.trainingContent != null">
+        training_content = #{record.trainingContent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tId != null">
+        t_id = #{record.tId,jdbcType=INTEGER},
+      </if>
+      <if test="record.trainingRecord != null">
+        training_record = #{record.trainingRecord,jdbcType=VARCHAR},
+      </if>
+      <if test="record.trainId != null">
+        train_id = #{record.trainId,jdbcType=INTEGER},
+      </if>
+      <if test="record.trainStarttime != null">
+        train_starttime = #{record.trainStarttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.trainEndtime != null">
+        train_endtime = #{record.trainEndtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.trainingTask != null">
+        training_task = #{record.trainingTask,jdbcType=VARCHAR},
+      </if>
+     
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  
+  
+  <update id="updateByExample" parameterType="map">
+    update training_log
+    set
+    	 
+    	 id = #{record.id,jdbcType=VARCHAR},
+    	 
+    	 s_id = #{record.sId,jdbcType=VARCHAR},
+    	 
+    	 training_place = #{record.trainingPlace,jdbcType=VARCHAR},
+    	 
+    	 training_content = #{record.trainingContent,jdbcType=VARCHAR},
+    	 
+    	 t_id = #{record.tId,jdbcType=INTEGER},
+    	 
+    	 training_record = #{record.trainingRecord,jdbcType=VARCHAR},
+    	 
+    	 train_id = #{record.trainId,jdbcType=INTEGER},
+    	 
+    	 train_starttime = #{record.trainStarttime,jdbcType=TIMESTAMP},
+    	 
+    	 train_endtime = #{record.trainEndtime,jdbcType=TIMESTAMP},
+    	 
+    	 training_task = #{record.trainingTask,jdbcType=VARCHAR}
+    
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.fc.pilotSchool.model.auto.TrainingLog">
+    update training_log
+    <set>
+      
+      <if test="sId != null and sId != ''">
+        s_id = #{sId,jdbcType=VARCHAR},
+      </if>
+      
+      <if test="trainingPlace != null and trainingPlace != ''">
+        training_place = #{trainingPlace,jdbcType=VARCHAR},
+      </if>
+      
+      <if test="trainingContent != null and trainingContent != ''">
+        training_content = #{trainingContent,jdbcType=VARCHAR},
+      </if>
+      
+      <if test="tId != null and tId != ''">
+        t_id = #{tId,jdbcType=INTEGER},
+      </if>
+      
+      <if test="trainingRecord != null and trainingRecord != ''">
+        training_record = #{trainingRecord,jdbcType=VARCHAR},
+      </if>
+      
+      <if test="trainId != null and trainId != ''">
+        train_id = #{trainId,jdbcType=INTEGER},
+      </if>
+      
+      <if test="trainStarttime != null">
+        train_starttime = #{trainStarttime,jdbcType=TIMESTAMP},
+      </if>
+      
+      <if test="trainEndtime != null">
+        train_endtime = #{trainEndtime,jdbcType=TIMESTAMP},
+      </if>
+      
+      <if test="trainingTask != null and trainingTask != ''">
+        training_task = #{trainingTask,jdbcType=VARCHAR},
+      </if>
+    </set>
+    
+    where 
+    
+    id = #{id,jdbcType=VARCHAR}
+  
+  </update>
+
+	
+
+  <update id="updateByPrimaryKey" parameterType="com.fc.pilotSchool.model.auto.TrainingLog">
+    update training_log
+    set 
+	  
+		s_id = #{sId,jdbcType=VARCHAR},
+	  
+		training_place = #{trainingPlace,jdbcType=VARCHAR},
+	  
+		training_content = #{trainingContent,jdbcType=VARCHAR},
+	  
+		t_id = #{tId,jdbcType=INTEGER},
+	  
+		training_record = #{trainingRecord,jdbcType=VARCHAR},
+	  
+		train_id = #{trainId,jdbcType=INTEGER},
+	  
+		train_starttime = #{trainStarttime,jdbcType=TIMESTAMP},
+	  
+		train_endtime = #{trainEndtime,jdbcType=TIMESTAMP},
+		
+		training_task = #{trainingTask,jdbcType=VARCHAR}
+	
+    where 
+    
+    id = #{id,jdbcType=VARCHAR}
+    
+  </update>
+  
+   
+</mapper>

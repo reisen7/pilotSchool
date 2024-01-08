@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fc.pilotSchool.mapper.auto.StudenjobMapper">
+  <resultMap id="BaseResultMap" type="com.fc.pilotSchool.model.auto.Studenjob">
+    <result column="id" jdbcType="VARCHAR" property="id" />
+    <result column="job_name" jdbcType="VARCHAR" property="jobName" />
+    <result column="employers_name" jdbcType="VARCHAR" property="employersName" />
+    <result column="employers_phone" jdbcType="VARCHAR" property="employersPhone" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+  
+     	id,
+     	job_name,
+     	employers_name,
+   	  	employers_phone
+  	
+  </sql>
+  
+  <select id="selectByExample" parameterType="com.fc.pilotSchool.model.auto.StudenjobExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from student_job
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from student_job
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from student_job
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.fc.pilotSchool.model.auto.StudenjobExample">
+    delete from student_job
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  
+  <insert id="insert" parameterType="com.fc.pilotSchool.model.auto.Studenjob">
+    insert into student_job (
+      id,
+      job_name,
+      employers_name,
+   	  employers_phone
+    )
+    values (
+     	#{id,jdbcType=VARCHAR},
+     	#{jobName,jdbcType=VARCHAR},
+     	#{employersName,jdbcType=VARCHAR},
+   	  #{employersPhone,jdbcType=VARCHAR}
+    )
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.fc.pilotSchool.model.auto.Studenjob">
+    insert into student_job
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+    
+      <if test="id != null">
+        id,
+      </if>
+    
+      <if test="jobName != null">
+        job_name,
+      </if>
+    
+      <if test="employersName != null">
+        employers_name,
+      </if>
+    
+      <if test="employersPhone != null">
+        employers_phone,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="jobName != null">
+        #{jobName,jdbcType=VARCHAR},
+      </if>
+      <if test="employersName != null">
+        #{employersName,jdbcType=VARCHAR},
+      </if>
+      <if test="employersPhone != null">
+        #{employersPhone,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <select id="countByExample" parameterType="com.fc.pilotSchool.model.auto.StudenjobExample" resultType="java.lang.Long">
+    select count(*) from student_job
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  
+  <update id="updateByExampleSelective" parameterType="map">
+    update student_job
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jobName != null">
+        job_name = #{record.jobName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.employersName != null">
+        employers_name = #{record.employersName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.employersPhone != null">
+        employers_phone = #{record.employersPhone,jdbcType=VARCHAR},
+      </if>
+     
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  
+  
+  <update id="updateByExample" parameterType="map">
+    update student_job
+    set
+    	 
+    	 id = #{record.id,jdbcType=VARCHAR},
+    	 
+    	 job_name = #{record.jobName,jdbcType=VARCHAR},
+    	 
+    	 employers_name = #{record.employersName,jdbcType=VARCHAR},
+    	 
+    	 employers_phone = #{record.employersPhone,jdbcType=VARCHAR}
+    
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.fc.pilotSchool.model.auto.Studenjob">
+    update student_job
+    <set>
+      
+      <if test="jobName != null and jobName != ''">
+        job_name = #{jobName,jdbcType=VARCHAR},
+      </if>
+      
+      <if test="employersName != null and employersName != ''">
+        employers_name = #{employersName,jdbcType=VARCHAR},
+      </if>
+      
+      <if test="employersPhone != null and employersPhone != ''">
+        employers_phone = #{employersPhone,jdbcType=VARCHAR},
+      </if>
+    </set>
+    
+    where 
+    
+    id = #{id,jdbcType=VARCHAR}
+  
+  </update>
+
+	
+
+  <update id="updateByPrimaryKey" parameterType="com.fc.pilotSchool.model.auto.Studenjob">
+    update student_job
+    set 
+	  
+		job_name = #{jobName,jdbcType=VARCHAR},
+	  
+		employers_name = #{employersName,jdbcType=VARCHAR},
+		
+		employers_phone = #{employersPhone,jdbcType=VARCHAR}
+	
+    where 
+    
+    id = #{id,jdbcType=VARCHAR}
+    
+  </update>
+  
+   
+</mapper>

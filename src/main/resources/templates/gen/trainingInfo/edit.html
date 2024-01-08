@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="include :: header('训练信息管理修改')"/>
+    <script src="https://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+    <script>
+        $(function () {
+            layui.use('form', function(){
+                layui.use('form', function(){
+                    var form = layui.form;
+                    $("#machineId").attr("disabled","disabled");
+                    $("#tId").attr("disabled","disabled");
+                    $("#sId").attr("disabled","disabled");
+                    $("#status").attr("disabled","disabled");
+                    $("#trainId").attr("disabled","disabled");
+                    form.render('select');
+                });
+            });
+
+            //点击取消的时候
+            $("#btn_training_cancel_time").click(function () {
+                $("#trainStarttime").attr("disabled", false);
+                $("#trainEndtime").attr("disabled", false);
+                layui.use('form', function(){
+                    layui.use('form', function(){
+                        var form = layui.form;
+                        $("#machineId").attr("disabled","disabled");
+                        $("#tId").attr("disabled","disabled");
+                        $("#sId").attr("disabled","disabled");
+                        $("#trainId").attr("disabled","disabled");
+                        $("#machineId").empty();
+                        $("#tId").empty();
+                        $("#sId").empty();
+                        $("#trainId").empty();
+                        $("#status").attr("disabled","disabled");
+                        form.render('select');
+                    });
+                });
+                $("#btn_training_save_time").attr("disabled", false);
+            });
+            //点击保存的时候
+            $("#btn_training_save_time").click(function () {
+                // var trainStarttime = $.trim($("#trainStarttime").val());
+                // var trainEndtime = $.trim($("#trainEndtime").val());
+                $("#trainStarttime").attr("disabled", true);
+                $("#trainEndtime").attr("disabled", true);
+                layui.use('form', function(){
+                    var form = layui.form;
+                    $("#machineId").removeAttr("disabled");
+                    $("#tId").removeAttr("disabled");
+                    $("#sId").removeAttr("disabled");
+                    $("#trainId").removeAttr("disabled");
+                    $("#status").removeAttr("disabled");
+                    $("#machineId").empty();
+                    $("#tId").empty();
+                    $("#sId").empty();
+                    $("#trainId").empty();
+                    form.render('select');
+                });
+                var trainStarttime = $.trim($("#trainStarttime").val());
+                var trainEndtime = $.trim($("#trainStarttime").val());
+                var dataList = {
+                    "trainStarttime": trainStarttime,
+                    "trainEndtime": trainEndtime
+                };
+
+                $.ajax({
+                    url: "/TrainingInfoController/get",
+                    type: "PUT",
+                    data: JSON.stringify(dataList),
+                    traditional: true,
+                    contentType: 'application/json;charset=UTF-8',
+                    success: function (data) {
+                        console.log(data)
+                        if (data.code==200){
+
+                            layui.use('form', function(){
+                                var form = layui.form;
+                                if (data.data.machineList != null) {
+                                    for (var i = 0; i < data.data.machineList.length; i++) {
+                                        $("#machineId").append("<option value="+data.data.machineList[i].id+">"+data.data.machineList[i].machineName+"</option>");
+                                    }
+                                }
+                                if (data.data.teacherList != null) {
+                                    for (var i = 0; i < data.data.teacherList.length; i++) {
+                                        $("#tId").append("<option value="+data.data.teacherList[i].id+">"+data.data.teacherList[i].trueName+"</option>");
+                                    }
+                                }
+                                if (data.data.studentList != null) {
+                                    for (var i = 0; i < data.data.studentList.length; i++) {
+                                        $("#sId").append("<option value="+data.data.studentList[i].id+">"+data.data.studentList[i].trueName+"</option>");
+                                    }
+                                }
+                                if (data.data.trainInfoList != null) {
+                                    for (var i = 0; i < data.data.trainInfoList.length; i++) {
+                                        $("#trainId").append("<option value="+data.data.trainInfoList[i].id+">"+data.data.trainInfoList[i].trainingDetails+"</option>");
+                                    }
+                                }
+                                form.render('select');
+                            });
+
+                        }
+
+                    },
+                    beforeSend: function () {
+                    },
+                    error: function () {
+
+                    }
+                });
+                $("#btn_training_save_time").attr("disabled", true);
+            });
+        });
+    </script>
+</head>
+<body>
+<form class="layui-form" action="" th:object="${TrainingInfo}">
+    <div class="mainBox">
+        <div class="main-container">
+            <div class="main-container">
+
+                <div class="layui-form-item layui-hide">
+                    <label class="layui-form-label">标识id</label>
+                    <div class="layui-input-block">
+                        <input type="text" th:value="*{id}" name="id" lay-verify="title"
+                               autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label" style="white-space:nowrap">训练开始时间</label>
+                    <div class="layui-input-block">
+                        <input type="text" th:value="${TrainingInfo.dateToStringConvert(TrainingInfo.trainStarttime)}"
+                               name="trainStarttime" id="trainStarttime" autocomplete="off" placeholder="训练开始时间"
+                               class="layui-input datetime-input">
+
+                    </div>
+                </div>
+
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label" style="white-space:nowrap">训练结束时间</label>
+                    <div class="layui-input-block">
+                        <input type="text" th:value="${TrainingInfo.dateToStringConvert(TrainingInfo.trainEndtime)}"
+                               name="trainEndtime" id="trainEndtime" autocomplete="off" placeholder="训练结束时间"
+                               class="layui-input datetime-input">
+
+                    </div>
+                </div>
+
+                <div style="text-align: center;">
+                    <button type="button" class="layui-btn layui-btn-normal layui-btn-sm" id="btn_training_save_time">
+                        <i class="layui-icon layui-icon-ok"></i>
+                        保存
+                    </button>
+                    <button type="button" class="layui-btn layui-btn-primary layui-btn-sm" id="btn_training_cancel_time">
+                        <i class="layui-icon layui-icon-refresh"></i>
+                        取消
+                    </button>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">训练地点</label>
+                    <div class="layui-input-block">
+                        <input th:value="*{trainingPlace}" type="text" name="trainingPlace" autocomplete="off"
+                               placeholder="训练地点" class="layui-input">
+                    </div>
+                </div>
+
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">训练内容</label>
+                    <div class="layui-input-block">
+                        <input th:value="*{trainingContent}" type="text" name="trainingContent" autocomplete="off"
+                               placeholder="训练内容" class="layui-input">
+                    </div>
+                </div>
+
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">教练id</label>
+                    <div class="layui-input-block">
+                        <!--		                        <input th:value="*{tId}" type="text" name="tId" autocomplete="off" placeholder="教练id" class="layui-input">-->
+                        <select name="tId" id="tId" lay-verify="required">
+                            <option th:value="*{tId}" th:text="*{tId}"></option>
+                        </select>
+                    </div>
+                </div>
+
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">设备id</label>
+                    <div class="layui-input-block">
+                        <!--		                        <input th:value="*{machineId}" type="text" name="machineId" autocomplete="off" placeholder="设备id" class="layui-input">-->
+                        <select name="machineId" id="machineId" lay-verify="required">
+                            <option th:value="*{machineId}" th:text="*{machineId}"></option>
+                        </select>
+                    </div>
+                </div>
+
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">状态</label>
+                    <div class="layui-input-block">
+                        <!--		                        <input th:value="*{status}" type="text" name="status" autocomplete="off" placeholder="状态" class="layui-input">-->
+
+                        <select name="status" id="status">
+                            <option value="1">未进行</option>
+                            <option value="0">正在进行</option>
+                        </select>
+                    </div>
+                </div>
+
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">学员id</label>
+                    <div class="layui-input-block">
+                        <!--		                        <input th:value="*{sId}" type="text" name="sId" autocomplete="off" placeholder="学员id" class="layui-input">-->
+                        <select name="sId" id="sId" lay-verify="required">
+                            <option th:value="*{sId}" selected th:text="*{sId}"></option>
+                        </select>
+                    </div>
+                </div>
+
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">训练编号</label>
+                    <div class="layui-input-block">
+                        <input th:value="*{trainNumber}" type="text" name="trainNumber" autocomplete="off"
+                               placeholder="训练编号" class="layui-input">
+                    </div>
+                </div>
+
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">培训id</label>
+                    <div class="layui-input-block">
+<!--                        <input th:value="*{trainId}" type="text" name="trainId" autocomplete="off" placeholder="培训id"-->
+<!--                               class="layui-input">-->
+                        <select name="machineId" id="trainId" lay-verify="required">
+                            <option th:value="*{trainId}" th:text="*{trainId}"></option>
+                        </select>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+    <div class="bottom">
+        <div class="button-container">
+            <button type="submit" class="layui-btn layui-btn-normal layui-btn-sm" lay-submit=""
+                    lay-filter="trainingInfo-update">
+                <i class="layui-icon layui-icon-ok"></i>
+                提交
+            </button>
+            <button type="reset" class="layui-btn layui-btn-primary layui-btn-sm">
+                <i class="layui-icon layui-icon-refresh"></i>
+                重置
+            </button>
+        </div>
+    </div>
+</form>
+<th:block th:include="include :: footer"/>
+<script>
+    layui.use(['form', 'laydate', 'jquery'], function () {
+        let form = layui.form;
+        let $ = layui.jquery;
+        let MODULE_PATH = rootPath + "/TrainingInfoController";
+        var laydate = layui.laydate;
+        //同时绑定多个
+        lay('.datetime-input').each(function () {
+            laydate.render({
+                elem: this
+                , trigger: 'click'
+                , type: 'datetime'
+            });
+        });
+
+
+        form.on('submit(trainingInfo-update)', function (data) {
+            let loader = layer.load();
+            $.ajax({
+                url: MODULE_PATH + '/edit',
+                data: data.field,
+                dataType: 'json',
+                contentType: 'application/x-www-form-urlencoded',
+                type: 'post',
+                success: function (result) {
+                    if (result.code == 200) {
+                        layer.msg(result.msg, {icon: 1, time: 1000}, function () {
+                            parent.layer.close(parent.layer.getFrameIndex(window.name));//关闭当前页
+                            parent.layui.table.reload("trainingInfo-table");
+                            layer.close(loader);
+                        });
+                    } else {
+                        layer.msg(result.msg, {icon: 2, time: 1000});
+                        layer.close(loader);
+                    }
+                }
+            })
+            return false;
+        });
+
+
+    })
+</script>
+</body>
+</html>

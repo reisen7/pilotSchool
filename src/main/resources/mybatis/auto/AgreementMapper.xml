@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fc.pilotSchool.mapper.auto.AgreementMapper">
+  <resultMap id="BaseResultMap" type="com.fc.pilotSchool.model.auto.Agreement">
+    <result column="id" jdbcType="VARCHAR" property="id" />
+    <result column="agreement_name" jdbcType="VARCHAR" property="agreementName" />
+    <result column="agreement_date" jdbcType="TIMESTAMP" property="agreementDate" />
+    <result column="agreement_path" jdbcType="VARCHAR" property="agreementPath" />
+    <result column="student_id" jdbcType="VARCHAR" property="studentId" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+  
+     	id,
+     	agreement_name,
+     	agreement_date,
+     	agreement_path,
+   	  	student_id
+  	
+  </sql>
+  
+  <select id="selectByExample" parameterType="com.fc.pilotSchool.model.auto.AgreementExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from agreement
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from agreement
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from agreement
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.fc.pilotSchool.model.auto.AgreementExample">
+    delete from agreement
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  
+  <insert id="insert" parameterType="com.fc.pilotSchool.model.auto.Agreement">
+    insert into agreement (
+      id,
+      agreement_name,
+      agreement_date,
+      agreement_path,
+   	  student_id
+    )
+    values (
+     	#{id,jdbcType=VARCHAR},
+     	#{agreementName,jdbcType=VARCHAR},
+     	#{agreementDate,jdbcType=TIMESTAMP},
+     	#{agreementPath,jdbcType=VARCHAR},
+   	  #{studentId,jdbcType=VARCHAR}
+    )
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.fc.pilotSchool.model.auto.Agreement">
+    insert into agreement
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+    
+      <if test="id != null">
+        id,
+      </if>
+    
+      <if test="agreementName != null">
+        agreement_name,
+      </if>
+    
+      <if test="agreementDate != null">
+        agreement_date,
+      </if>
+    
+      <if test="agreementPath != null">
+        agreement_path,
+      </if>
+    
+      <if test="studentId != null">
+        student_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="agreementName != null">
+        #{agreementName,jdbcType=VARCHAR},
+      </if>
+      <if test="agreementDate != null">
+        #{agreementDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="agreementPath != null">
+        #{agreementPath,jdbcType=VARCHAR},
+      </if>
+      <if test="studentId != null">
+        #{studentId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <select id="countByExample" parameterType="com.fc.pilotSchool.model.auto.AgreementExample" resultType="java.lang.Long">
+    select count(*) from agreement
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  
+  <update id="updateByExampleSelective" parameterType="map">
+    update agreement
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.agreementName != null">
+        agreement_name = #{record.agreementName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.agreementDate != null">
+        agreement_date = #{record.agreementDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.agreementPath != null">
+        agreement_path = #{record.agreementPath,jdbcType=VARCHAR},
+      </if>
+      <if test="record.studentId != null">
+        student_id = #{record.studentId,jdbcType=VARCHAR},
+      </if>
+     
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  
+  
+  <update id="updateByExample" parameterType="map">
+    update agreement
+    set
+    	 
+    	 id = #{record.id,jdbcType=VARCHAR},
+    	 
+    	 agreement_name = #{record.agreementName,jdbcType=VARCHAR},
+    	 
+    	 agreement_date = #{record.agreementDate,jdbcType=TIMESTAMP},
+    	 
+    	 agreement_path = #{record.agreementPath,jdbcType=VARCHAR},
+    	 
+    	 student_id = #{record.studentId,jdbcType=VARCHAR}
+    
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.fc.pilotSchool.model.auto.Agreement">
+    update agreement
+    <set>
+      
+      <if test="agreementName != null and agreementName != ''">
+        agreement_name = #{agreementName,jdbcType=VARCHAR},
+      </if>
+      
+      <if test="agreementDate != null">
+        agreement_date = #{agreementDate,jdbcType=TIMESTAMP},
+      </if>
+      
+      <if test="agreementPath != null and agreementPath != ''">
+        agreement_path = #{agreementPath,jdbcType=VARCHAR},
+      </if>
+      
+      <if test="studentId != null and studentId != ''">
+        student_id = #{studentId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    
+    where 
+    
+    id = #{id,jdbcType=VARCHAR}
+  
+  </update>
+
+	
+
+  <update id="updateByPrimaryKey" parameterType="com.fc.pilotSchool.model.auto.Agreement">
+    update agreement
+    set 
+	  
+		agreement_name = #{agreementName,jdbcType=VARCHAR},
+	  
+		agreement_date = #{agreementDate,jdbcType=TIMESTAMP},
+	  
+		agreement_path = #{agreementPath,jdbcType=VARCHAR},
+		
+		student_id = #{studentId,jdbcType=VARCHAR}
+	
+    where 
+    
+    id = #{id,jdbcType=VARCHAR}
+    
+  </update>
+  
+   
+</mapper>

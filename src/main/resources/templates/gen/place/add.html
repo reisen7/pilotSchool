@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="include :: header('场地新增')"/>
+</head>
+<body>
+<form class="layui-form">
+    <div class="mainBox">
+        <div class="main-container">
+            <div class="main-container">
+
+							<div class="layui-form-item">
+			                    <label class="layui-form-label">场地名称</label>
+			                    <div class="layui-input-block">
+			                        <input type="text" name="placeName" autocomplete="off" placeholder="场地名称" class="layui-input">
+			                    </div>
+			                </div>
+		
+
+							<div class="layui-form-item">
+			                    <label class="layui-form-label">场地地址</label>
+			                    <div class="layui-input-block">
+			                        <input type="text" name="placeAddress" autocomplete="off" placeholder="场地地址" class="layui-input">
+			                    </div>
+			                </div>
+		
+
+							<div class="layui-form-item">
+			                    <label class="layui-form-label">场地管理员</label>
+			                    <div class="layui-input-block">
+<!--			                        <input type="text" name="placeMaster" autocomplete="off" placeholder="场地管理员" class="layui-input">-->
+									<select lay-verify="required" name="placeMaster" lay-filter="selectOnchange">
+										<option ></option>
+										<option
+												th:each="item:${staffList}"
+												th:value="${item.id}"
+												th:text="${item.trueName}" >
+										</option>
+									</select>
+								</div>
+			                </div>
+		
+
+							<div class="layui-form-item">
+			                    <label class="layui-form-label">管理员电话</label>
+			                    <div class="layui-input-block">
+			                        <input type="text" name="masterPhone" autocomplete="off" placeholder="管理员电话" class="layui-input">
+			                    </div>
+			                </div>
+		
+
+							<div class="layui-form-item">
+			                    <label class="layui-form-label">场地使用情况</label>
+			                    <div class="layui-input-block">
+			                        <input type="text" name="placeStatus" autocomplete="off" placeholder="场地使用情况" class="layui-input">
+			                    </div>
+			                </div>
+		
+
+							<div class="layui-form-item">
+			                    <label class="layui-form-label">费用</label>
+			                    <div class="layui-input-block">
+			                        <input type="text" name="cost" autocomplete="off" placeholder="费用" class="layui-input">
+			                    </div>
+			                </div>
+		
+
+            </div>
+        </div>
+    </div>
+    <div class="bottom">
+        <div class="button-container">
+            <button type="submit" class="layui-btn layui-btn-normal layui-btn-sm" lay-submit="" lay-filter="place-save">
+                <i class="layui-icon layui-icon-ok"></i>
+                提交
+            </button>
+            <button type="reset" class="layui-btn layui-btn-primary layui-btn-sm">
+                <i class="layui-icon layui-icon-refresh"></i>
+                重置
+            </button>
+        </div>
+    </div>
+</form>
+<th:block th:include="include :: footer"/>
+<script>
+    layui.use(['form','laydate','jquery'], function () {
+        let form = layui.form;
+        let $ = layui.jquery;
+        let MODULE_PATH = rootPath+"/PlaceController";
+
+
+        //保存
+        form.on('submit(place-save)', function (data) {
+        	let loader = layer.load();
+            $.ajax({
+                url: MODULE_PATH+'/add',
+                data: data.field,
+                dataType: 'json',
+                contentType: 'application/x-www-form-urlencoded',
+                type: 'post',
+                success: function (result) {
+                    if (result.code==200) {
+                        layer.msg(result.msg, {icon: 1, time: 1000}, function () {
+                            parent.layer.close(parent.layer.getFrameIndex(window.name));//关闭当前页
+                            parent.layui.table.reload("place-table");
+                            layer.close(loader);
+                        });
+                    } else {
+                        layer.msg(result.msg, {icon: 2, time: 1000});
+                        layer.close(loader);
+                    }
+                }
+            })
+            return false;
+        });
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fc.pilotSchool.mapper.auto.CourseMapper">
+  <resultMap id="BaseResultMap" type="com.fc.pilotSchool.model.auto.Course">
+    <result column="c_id" jdbcType="VARCHAR" property="cId" />
+    <result column="course_name" jdbcType="VARCHAR" property="courseName" />
+    <result column="t_id" jdbcType="VARCHAR" property="tId" />
+    <result column="amenities_id" jdbcType="VARCHAR" property="amenitiesId" />
+    <result column="course_starttime" jdbcType="TIMESTAMP" property="courseStarttime" />
+    <result column="course_endtime" jdbcType="TIMESTAMP" property="courseEndtime" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="train_id" jdbcType="VARCHAR" property="trainId" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+  
+     	c_id,
+     	course_name,
+     	t_id,
+     	amenities_id,
+     	course_starttime,
+     	course_endtime,
+     	status,
+   	  	train_id
+  	
+  </sql>
+  
+  <select id="selectByExample" parameterType="com.fc.pilotSchool.model.auto.CourseExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from course
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from course
+    where c_id = #{cId,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from course
+    where c_id = #{cId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.fc.pilotSchool.model.auto.CourseExample">
+    delete from course
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  
+  <insert id="insert" parameterType="com.fc.pilotSchool.model.auto.Course">
+    insert into course (
+      c_id,
+      course_name,
+      t_id,
+      amenities_id,
+      course_starttime,
+      course_endtime,
+      status,
+   	  train_id
+    )
+    values (
+     	#{cId,jdbcType=VARCHAR},
+     	#{courseName,jdbcType=VARCHAR},
+     	#{tId,jdbcType=VARCHAR},
+     	#{amenitiesId,jdbcType=VARCHAR},
+     	#{courseStarttime,jdbcType=TIMESTAMP},
+     	#{courseEndtime,jdbcType=TIMESTAMP},
+     	#{status,jdbcType=VARCHAR},
+   	  #{trainId,jdbcType=VARCHAR}
+    )
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.fc.pilotSchool.model.auto.Course">
+    insert into course
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+    
+      <if test="cId != null">
+        c_id,
+      </if>
+    
+      <if test="courseName != null">
+        course_name,
+      </if>
+    
+      <if test="tId != null">
+        t_id,
+      </if>
+    
+      <if test="amenitiesId != null">
+        amenities_id,
+      </if>
+    
+      <if test="courseStarttime != null">
+        course_starttime,
+      </if>
+    
+      <if test="courseEndtime != null">
+        course_endtime,
+      </if>
+    
+      <if test="status != null">
+        status,
+      </if>
+    
+      <if test="trainId != null">
+        train_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="cId != null">
+        #{cId,jdbcType=VARCHAR},
+      </if>
+      <if test="courseName != null">
+        #{courseName,jdbcType=VARCHAR},
+      </if>
+      <if test="tId != null">
+        #{tId,jdbcType=VARCHAR},
+      </if>
+      <if test="amenitiesId != null">
+        #{amenitiesId,jdbcType=VARCHAR},
+      </if>
+      <if test="courseStarttime != null">
+        #{courseStarttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="courseEndtime != null">
+        #{courseEndtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="trainId != null">
+        #{trainId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <select id="countByExample" parameterType="com.fc.pilotSchool.model.auto.CourseExample" resultType="java.lang.Long">
+    select count(*) from course
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  
+  <update id="updateByExampleSelective" parameterType="map">
+    update course
+    <set>
+      <if test="record.cId != null">
+        c_id = #{record.cId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.courseName != null">
+        course_name = #{record.courseName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tId != null">
+        t_id = #{record.tId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.amenitiesId != null">
+        amenities_id = #{record.amenitiesId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.courseStarttime != null">
+        course_starttime = #{record.courseStarttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.courseEndtime != null">
+        course_endtime = #{record.courseEndtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=VARCHAR},
+      </if>
+      <if test="record.trainId != null">
+        train_id = #{record.trainId,jdbcType=VARCHAR},
+      </if>
+     
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  
+  
+  <update id="updateByExample" parameterType="map">
+    update course
+    set
+    	 
+    	 c_id = #{record.cId,jdbcType=VARCHAR},
+    	 
+    	 course_name = #{record.courseName,jdbcType=VARCHAR},
+    	 
+    	 t_id = #{record.tId,jdbcType=VARCHAR},
+    	 
+    	 amenities_id = #{record.amenitiesId,jdbcType=VARCHAR},
+    	 
+    	 course_starttime = #{record.courseStarttime,jdbcType=TIMESTAMP},
+    	 
+    	 course_endtime = #{record.courseEndtime,jdbcType=TIMESTAMP},
+    	 
+    	 status = #{record.status,jdbcType=VARCHAR},
+    	 
+    	 train_id = #{record.trainId,jdbcType=VARCHAR}
+    
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.fc.pilotSchool.model.auto.Course">
+    update course
+    <set>
+      
+      <if test="courseName != null and courseName != ''">
+        course_name = #{courseName,jdbcType=VARCHAR},
+      </if>
+      
+      <if test="tId != null and tId != ''">
+        t_id = #{tId,jdbcType=VARCHAR},
+      </if>
+      
+      <if test="amenitiesId != null and amenitiesId != ''">
+        amenities_id = #{amenitiesId,jdbcType=VARCHAR},
+      </if>
+      
+      <if test="courseStarttime != null">
+        course_starttime = #{courseStarttime,jdbcType=TIMESTAMP},
+      </if>
+      
+      <if test="courseEndtime != null">
+        course_endtime = #{courseEndtime,jdbcType=TIMESTAMP},
+      </if>
+      
+      <if test="status != null and status != ''">
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      
+      <if test="trainId != null and trainId != ''">
+        train_id = #{trainId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    
+    where 
+    
+    c_id = #{cId,jdbcType=VARCHAR}
+  
+  </update>
+
+	
+
+  <update id="updateByPrimaryKey" parameterType="com.fc.pilotSchool.model.auto.Course">
+    update course
+    set 
+	  
+		course_name = #{courseName,jdbcType=VARCHAR},
+	  
+		t_id = #{tId,jdbcType=VARCHAR},
+	  
+		amenities_id = #{amenitiesId,jdbcType=VARCHAR},
+	  
+		course_starttime = #{courseStarttime,jdbcType=TIMESTAMP},
+	  
+		course_endtime = #{courseEndtime,jdbcType=TIMESTAMP},
+	  
+		status = #{status,jdbcType=VARCHAR},
+		
+		train_id = #{trainId,jdbcType=VARCHAR}
+	
+    where 
+    
+    c_id = #{cId,jdbcType=VARCHAR}
+    
+  </update>
+  
+   
+</mapper>

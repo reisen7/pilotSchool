@@ -1,0 +1,492 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fc.pilotSchool.mapper.auto.StudentMapper">
+  <resultMap id="BaseResultMap" type="com.fc.pilotSchool.model.auto.Student">
+    <result column="id" jdbcType="VARCHAR" property="id" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="true_name" jdbcType="VARCHAR" property="trueName" />
+    <result column="id_card" jdbcType="VARCHAR" property="idCard" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="pwd" jdbcType="VARCHAR" property="pwd" />
+    <result column="flag" jdbcType="CHAR" property="flag" />
+    <result column="sex" jdbcType="CHAR" property="sex" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="enroll_date" jdbcType="TIMESTAMP" property="enrollDate" />
+    <result column="login_date" jdbcType="TIMESTAMP" property="loginDate" />
+    <result column="merf" jdbcType="VARCHAR" property="merf" />
+    <result column="isgradu" jdbcType="CHAR" property="isgradu" />
+    <result column="ispay" jdbcType="CHAR" property="ispay" />
+    <result column="train_id" jdbcType="VARCHAR" property="trainId" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+  
+     	id,
+     	username,
+     	true_name,
+     	id_card,
+     	phone,
+     	pwd,
+     	flag,
+     	sex,
+     	address,
+     	enroll_date,
+     	login_date,
+     	merf,
+     	isgradu,
+     	ispay,
+   	  	train_id
+  	
+  </sql>
+  
+  <select id="selectByExample" parameterType="com.fc.pilotSchool.model.auto.StudentExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from student
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from student
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from student
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.fc.pilotSchool.model.auto.StudentExample">
+    delete from student
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  
+  <insert id="insert" parameterType="com.fc.pilotSchool.model.auto.Student">
+    insert into student (
+      id,
+      username,
+      true_name,
+      id_card,
+      phone,
+      pwd,
+      flag,
+      sex,
+      address,
+      enroll_date,
+      login_date,
+      merf,
+      isgradu,
+      ispay,
+   	  train_id
+    )
+    values (
+     	#{id,jdbcType=VARCHAR},
+     	#{username,jdbcType=VARCHAR},
+     	#{trueName,jdbcType=VARCHAR},
+     	#{idCard,jdbcType=VARCHAR},
+     	#{phone,jdbcType=VARCHAR},
+     	#{pwd,jdbcType=VARCHAR},
+     	#{flag,jdbcType=CHAR},
+     	#{sex,jdbcType=CHAR},
+     	#{address,jdbcType=VARCHAR},
+     	#{enrollDate,jdbcType=TIMESTAMP},
+     	#{loginDate,jdbcType=TIMESTAMP},
+     	#{merf,jdbcType=VARCHAR},
+     	#{isgradu,jdbcType=CHAR},
+     	#{ispay,jdbcType=CHAR},
+   	  #{trainId,jdbcType=VARCHAR}
+    )
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.fc.pilotSchool.model.auto.Student">
+    insert into student
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+    
+      <if test="id != null">
+        id,
+      </if>
+    
+      <if test="username != null">
+        username,
+      </if>
+    
+      <if test="trueName != null">
+        true_name,
+      </if>
+    
+      <if test="idCard != null">
+        id_card,
+      </if>
+    
+      <if test="phone != null">
+        phone,
+      </if>
+    
+      <if test="pwd != null">
+        pwd,
+      </if>
+    
+      <if test="flag != null">
+        flag,
+      </if>
+    
+      <if test="sex != null">
+        sex,
+      </if>
+    
+      <if test="address != null">
+        address,
+      </if>
+    
+      <if test="enrollDate != null">
+        enroll_date,
+      </if>
+    
+      <if test="loginDate != null">
+        login_date,
+      </if>
+    
+      <if test="merf != null">
+        merf,
+      </if>
+    
+      <if test="isgradu != null">
+        isgradu,
+      </if>
+    
+      <if test="ispay != null">
+        ispay,
+      </if>
+    
+      <if test="trainId != null">
+        train_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="trueName != null">
+        #{trueName,jdbcType=VARCHAR},
+      </if>
+      <if test="idCard != null">
+        #{idCard,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="pwd != null">
+        #{pwd,jdbcType=VARCHAR},
+      </if>
+      <if test="flag != null">
+        #{flag,jdbcType=CHAR},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=CHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="enrollDate != null">
+        #{enrollDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="loginDate != null">
+        #{loginDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="merf != null">
+        #{merf,jdbcType=VARCHAR},
+      </if>
+      <if test="isgradu != null">
+        #{isgradu,jdbcType=CHAR},
+      </if>
+      <if test="ispay != null">
+        #{ispay,jdbcType=CHAR},
+      </if>
+      <if test="trainId != null">
+        #{trainId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <select id="countByExample" parameterType="com.fc.pilotSchool.model.auto.StudentExample" resultType="java.lang.Long">
+    select count(*) from student
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  
+  <update id="updateByExampleSelective" parameterType="map">
+    update student
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.username != null">
+        username = #{record.username,jdbcType=VARCHAR},
+      </if>
+      <if test="record.trueName != null">
+        true_name = #{record.trueName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.idCard != null">
+        id_card = #{record.idCard,jdbcType=VARCHAR},
+      </if>
+      <if test="record.phone != null">
+        phone = #{record.phone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pwd != null">
+        pwd = #{record.pwd,jdbcType=VARCHAR},
+      </if>
+      <if test="record.flag != null">
+        flag = #{record.flag,jdbcType=CHAR},
+      </if>
+      <if test="record.sex != null">
+        sex = #{record.sex,jdbcType=CHAR},
+      </if>
+      <if test="record.address != null">
+        address = #{record.address,jdbcType=VARCHAR},
+      </if>
+      <if test="record.enrollDate != null">
+        enroll_date = #{record.enrollDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.loginDate != null">
+        login_date = #{record.loginDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.merf != null">
+        merf = #{record.merf,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isgradu != null">
+        isgradu = #{record.isgradu,jdbcType=CHAR},
+      </if>
+      <if test="record.ispay != null">
+        ispay = #{record.ispay,jdbcType=CHAR},
+      </if>
+      <if test="record.trainId != null">
+        train_id = #{record.trainId,jdbcType=VARCHAR},
+      </if>
+     
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  
+  
+  <update id="updateByExample" parameterType="map">
+    update student
+    set
+    	 
+    	 id = #{record.id,jdbcType=VARCHAR},
+    	 
+    	 username = #{record.username,jdbcType=VARCHAR},
+    	 
+    	 true_name = #{record.trueName,jdbcType=VARCHAR},
+    	 
+    	 id_card = #{record.idCard,jdbcType=VARCHAR},
+    	 
+    	 phone = #{record.phone,jdbcType=VARCHAR},
+    	 
+    	 pwd = #{record.pwd,jdbcType=VARCHAR},
+    	 
+    	 flag = #{record.flag,jdbcType=CHAR},
+    	 
+    	 sex = #{record.sex,jdbcType=CHAR},
+    	 
+    	 address = #{record.address,jdbcType=VARCHAR},
+    	 
+    	 enroll_date = #{record.enrollDate,jdbcType=TIMESTAMP},
+    	 
+    	 login_date = #{record.loginDate,jdbcType=TIMESTAMP},
+    	 
+    	 merf = #{record.merf,jdbcType=VARCHAR},
+    	 
+    	 isgradu = #{record.isgradu,jdbcType=CHAR},
+    	 
+    	 ispay = #{record.ispay,jdbcType=CHAR},
+    	 
+    	 train_id = #{record.trainId,jdbcType=VARCHAR}
+    
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.fc.pilotSchool.model.auto.Student">
+    update student
+    <set>
+      
+      <if test="username != null and username != ''">
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      
+      <if test="trueName != null and trueName != ''">
+        true_name = #{trueName,jdbcType=VARCHAR},
+      </if>
+      
+      <if test="idCard != null and idCard != ''">
+        id_card = #{idCard,jdbcType=VARCHAR},
+      </if>
+      
+      <if test="phone != null and phone != ''">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      
+      <if test="pwd != null and pwd != ''">
+        pwd = #{pwd,jdbcType=VARCHAR},
+      </if>
+      
+      <if test="flag != null and flag != ''">
+        flag = #{flag,jdbcType=CHAR},
+      </if>
+      
+      <if test="sex != null and sex != ''">
+        sex = #{sex,jdbcType=CHAR},
+      </if>
+      
+      <if test="address != null and address != ''">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      
+      <if test="enrollDate != null">
+        enroll_date = #{enrollDate,jdbcType=TIMESTAMP},
+      </if>
+      
+      <if test="loginDate != null">
+        login_date = #{loginDate,jdbcType=TIMESTAMP},
+      </if>
+      
+      <if test="merf != null and merf != ''">
+        merf = #{merf,jdbcType=VARCHAR},
+      </if>
+      
+      <if test="isgradu != null and isgradu != ''">
+        isgradu = #{isgradu,jdbcType=CHAR},
+      </if>
+      
+      <if test="ispay != null and ispay != ''">
+        ispay = #{ispay,jdbcType=CHAR},
+      </if>
+      
+      <if test="trainId != null and trainId != ''">
+        train_id = #{trainId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    
+    where 
+    
+    id = #{id,jdbcType=VARCHAR}
+  
+  </update>
+
+	
+
+  <update id="updateByPrimaryKey" parameterType="com.fc.pilotSchool.model.auto.Student">
+    update student
+    set 
+	  
+		username = #{username,jdbcType=VARCHAR},
+	  
+		true_name = #{trueName,jdbcType=VARCHAR},
+	  
+		id_card = #{idCard,jdbcType=VARCHAR},
+	  
+		phone = #{phone,jdbcType=VARCHAR},
+	  
+		pwd = #{pwd,jdbcType=VARCHAR},
+	  
+		flag = #{flag,jdbcType=CHAR},
+	  
+		sex = #{sex,jdbcType=CHAR},
+	  
+		address = #{address,jdbcType=VARCHAR},
+	  
+		enroll_date = #{enrollDate,jdbcType=TIMESTAMP},
+	  
+		login_date = #{loginDate,jdbcType=TIMESTAMP},
+	  
+		merf = #{merf,jdbcType=VARCHAR},
+	  
+		isgradu = #{isgradu,jdbcType=CHAR},
+	  
+		ispay = #{ispay,jdbcType=CHAR},
+		
+		train_id = #{trainId,jdbcType=VARCHAR}
+	
+    where 
+    
+    id = #{id,jdbcType=VARCHAR}
+    
+  </update>
+  
+   
+</mapper>

@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fc.pilotSchool.mapper.auto.TrainFileMapper">
+  <resultMap id="BaseResultMap" type="com.fc.pilotSchool.model.auto.TrainFile">
+    <result column="id" jdbcType="VARCHAR" property="id" />
+    <result column="details" jdbcType="VARCHAR" property="details" />
+    <result column="upload_name" jdbcType="VARCHAR" property="uploadName" />
+    <result column="upload_date" jdbcType="TIMESTAMP" property="uploadDate" />
+    <result column="file_name" jdbcType="VARCHAR" property="fileName" />
+    <result column="file_path" jdbcType="VARCHAR" property="filePath" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+  
+     	id,
+     	details,
+     	upload_name,
+     	upload_date,
+     	file_name,
+   	  	file_path
+  	
+  </sql>
+  
+  <select id="selectByExample" parameterType="com.fc.pilotSchool.model.auto.TrainFileExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from train_file
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from train_file
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from train_file
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.fc.pilotSchool.model.auto.TrainFileExample">
+    delete from train_file
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  
+  <insert id="insert" parameterType="com.fc.pilotSchool.model.auto.TrainFile">
+    insert into train_file (
+      id,
+      details,
+      upload_name,
+      upload_date,
+      file_name,
+   	  file_path
+    )
+    values (
+     	#{id,jdbcType=VARCHAR},
+     	#{details,jdbcType=VARCHAR},
+     	#{uploadName,jdbcType=VARCHAR},
+     	#{uploadDate,jdbcType=TIMESTAMP},
+     	#{fileName,jdbcType=VARCHAR},
+   	  #{filePath,jdbcType=VARCHAR}
+    )
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.fc.pilotSchool.model.auto.TrainFile">
+    insert into train_file
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+    
+      <if test="id != null">
+        id,
+      </if>
+    
+      <if test="details != null">
+        details,
+      </if>
+    
+      <if test="uploadName != null">
+        upload_name,
+      </if>
+    
+      <if test="uploadDate != null">
+        upload_date,
+      </if>
+    
+      <if test="fileName != null">
+        file_name,
+      </if>
+    
+      <if test="filePath != null">
+        file_path,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="details != null">
+        #{details,jdbcType=VARCHAR},
+      </if>
+      <if test="uploadName != null">
+        #{uploadName,jdbcType=VARCHAR},
+      </if>
+      <if test="uploadDate != null">
+        #{uploadDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fileName != null">
+        #{fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="filePath != null">
+        #{filePath,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <select id="countByExample" parameterType="com.fc.pilotSchool.model.auto.TrainFileExample" resultType="java.lang.Long">
+    select count(*) from train_file
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  
+  <update id="updateByExampleSelective" parameterType="map">
+    update train_file
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.details != null">
+        details = #{record.details,jdbcType=VARCHAR},
+      </if>
+      <if test="record.uploadName != null">
+        upload_name = #{record.uploadName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.uploadDate != null">
+        upload_date = #{record.uploadDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.fileName != null">
+        file_name = #{record.fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.filePath != null">
+        file_path = #{record.filePath,jdbcType=VARCHAR},
+      </if>
+     
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  
+  
+  <update id="updateByExample" parameterType="map">
+    update train_file
+    set
+    	 
+    	 id = #{record.id,jdbcType=VARCHAR},
+    	 
+    	 details = #{record.details,jdbcType=VARCHAR},
+    	 
+    	 upload_name = #{record.uploadName,jdbcType=VARCHAR},
+    	 
+    	 upload_date = #{record.uploadDate,jdbcType=TIMESTAMP},
+    	 
+    	 file_name = #{record.fileName,jdbcType=VARCHAR},
+    	 
+    	 file_path = #{record.filePath,jdbcType=VARCHAR}
+    
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.fc.pilotSchool.model.auto.TrainFile">
+    update train_file
+    <set>
+      
+      <if test="details != null and details != ''">
+        details = #{details,jdbcType=VARCHAR},
+      </if>
+      
+      <if test="uploadName != null and uploadName != ''">
+        upload_name = #{uploadName,jdbcType=VARCHAR},
+      </if>
+      
+      <if test="uploadDate != null">
+        upload_date = #{uploadDate,jdbcType=TIMESTAMP},
+      </if>
+      
+      <if test="fileName != null and fileName != ''">
+        file_name = #{fileName,jdbcType=VARCHAR},
+      </if>
+      
+      <if test="filePath != null and filePath != ''">
+        file_path = #{filePath,jdbcType=VARCHAR},
+      </if>
+    </set>
+    
+    where 
+    
+    id = #{id,jdbcType=VARCHAR}
+  
+  </update>
+
+	
+
+  <update id="updateByPrimaryKey" parameterType="com.fc.pilotSchool.model.auto.TrainFile">
+    update train_file
+    set 
+	  
+		details = #{details,jdbcType=VARCHAR},
+	  
+		upload_name = #{uploadName,jdbcType=VARCHAR},
+	  
+		upload_date = #{uploadDate,jdbcType=TIMESTAMP},
+	  
+		file_name = #{fileName,jdbcType=VARCHAR},
+		
+		file_path = #{filePath,jdbcType=VARCHAR}
+	
+    where 
+    
+    id = #{id,jdbcType=VARCHAR}
+    
+  </update>
+  
+   
+</mapper>

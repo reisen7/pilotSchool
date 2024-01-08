@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="include :: header('课程信息新增')"/>
+</head>
+<body>
+<form class="layui-form">
+    <div class="mainBox">
+        <div class="main-container">
+            <div class="main-container">
+
+							<div class="layui-form-item">
+			                    <label class="layui-form-label">课程名称</label>
+			                    <div class="layui-input-block">
+			                        <input type="text" name="courseName" autocomplete="off" placeholder="课程名称" class="layui-input">
+			                    </div>
+			                </div>
+		
+
+							<div class="layui-form-item">
+			                    <label class="layui-form-label">教师id</label>
+			                    <div class="layui-input-block">
+<!--			                        <input type="text" name="tId" autocomplete="off" placeholder="教师id" class="layui-input">-->
+									<select lay-verify="required" name="tId" lay-filter="selectOnchange">
+										<option ></option>
+										<option
+												th:each="item:${teacherList}"
+												th:value="${item.id}"
+												th:text="${item.trueName}">
+										</option>
+									</select>
+			                    </div>
+			                </div>
+		
+
+							<div class="layui-form-item">
+			                    <label class="layui-form-label">配套设施id</label>
+			                    <div class="layui-input-block">
+<!--			                        <input type="text" name="amenitiesId" autocomplete="off" placeholder="配套设施id" class="layui-input">-->
+
+									<select lay-verify="required" name="amenitiesId" lay-filter="selectOnchange">
+										<option ></option>
+										<option
+												th:each="item:${facilityList}"
+												th:value="${item.id}"
+												th:text="${item.facilityName}">
+										</option>
+									</select>
+			                    </div>
+			                </div>
+		
+
+							<div class="layui-form-item">
+			                    <label class="layui-form-label">课程开始时间</label>
+			                    <div class="layui-input-block">
+			                        <input type="text" name="courseStarttime" autocomplete="off" placeholder="课程开始时间" class="layui-input datetime-input">
+			                    </div>
+			                </div>
+		
+
+							<div class="layui-form-item">
+			                    <label class="layui-form-label">课程开始时间</label>
+			                    <div class="layui-input-block">
+			                        <input type="text" name="courseEndtime" autocomplete="off" placeholder="课程开始时间" class="layui-input datetime-input">
+			                    </div>
+			                </div>
+		
+
+							<div class="layui-form-item">
+			                    <label class="layui-form-label">课程状态</label>
+			                    <div class="layui-input-block">
+			                        <input type="text" name="status" autocomplete="off" placeholder="课程状态" class="layui-input">
+			                    </div>
+			                </div>
+		
+
+							<div class="layui-form-item">
+			                    <label class="layui-form-label">培训id</label>
+			                    <div class="layui-input-block">
+<!--			                        <input type="text" name="trainId" autocomplete="off" placeholder="培训id" class="layui-input">-->
+
+									<select lay-verify="required" name="trainId" lay-filter="selectOnchange">
+										<option ></option>
+										<option
+												th:each="item:${trainInfoList}"
+												th:value="${item.trainingId}"
+												th:text="${item.trainingDetails}">
+										</option>
+									</select>
+			                    </div>
+			                </div>
+		
+
+            </div>
+        </div>
+    </div>
+    <div class="bottom">
+        <div class="button-container">
+            <button type="submit" class="layui-btn layui-btn-normal layui-btn-sm" lay-submit="" lay-filter="course-save">
+                <i class="layui-icon layui-icon-ok"></i>
+                提交
+            </button>
+            <button type="reset" class="layui-btn layui-btn-primary layui-btn-sm">
+                <i class="layui-icon layui-icon-refresh"></i>
+                重置
+            </button>
+        </div>
+    </div>
+</form>
+<th:block th:include="include :: footer"/>
+<script>
+    layui.use(['form','laydate','jquery'], function () {
+        let form = layui.form;
+        let $ = layui.jquery;
+        let MODULE_PATH = rootPath+"/CourseController";
+		var laydate = layui.laydate;
+        //同时绑定多个
+        lay('.datetime-input').each(function(){
+          laydate.render({
+            elem: this
+            ,trigger: 'click'
+            ,type: 'datetime'
+          });
+        });
+
+
+        //保存
+        form.on('submit(course-save)', function (data) {
+        	let loader = layer.load();
+            $.ajax({
+                url: MODULE_PATH+'/add',
+                data: data.field,
+                dataType: 'json',
+                contentType: 'application/x-www-form-urlencoded',
+                type: 'post',
+                success: function (result) {
+                    if (result.code==200) {
+                        layer.msg(result.msg, {icon: 1, time: 1000}, function () {
+                            parent.layer.close(parent.layer.getFrameIndex(window.name));//关闭当前页
+                            parent.layui.table.reload("course-table");
+                            layer.close(loader);
+                        });
+                    } else {
+                        layer.msg(result.msg, {icon: 2, time: 1000});
+                        layer.close(loader);
+                    }
+                }
+            })
+            return false;
+        });
+    })
+</script>
+</body>
+</html>

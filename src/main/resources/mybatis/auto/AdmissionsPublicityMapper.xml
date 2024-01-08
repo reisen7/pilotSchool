@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fc.pilotSchool.mapper.auto.AdmissionsPublicityMapper">
+  <resultMap id="BaseResultMap" type="com.fc.pilotSchool.model.auto.AdmissionsPublicity">
+    <result column="id" jdbcType="VARCHAR" property="id" />
+    <result column="publicity_time" jdbcType="TIMESTAMP" property="publicityTime" />
+    <result column="publicity_context" jdbcType="VARCHAR" property="publicityContext" />
+    <result column="admissions_rule" jdbcType="VARCHAR" property="admissionsRule" />
+    <result column="publicity_way" jdbcType="VARCHAR" property="publicityWay" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+  
+     	id,
+     	publicity_time,
+     	publicity_context,
+     	admissions_rule,
+   	  	publicity_way
+  	
+  </sql>
+  
+  <select id="selectByExample" parameterType="com.fc.pilotSchool.model.auto.AdmissionsPublicityExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from admissions_publicity
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from admissions_publicity
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from admissions_publicity
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.fc.pilotSchool.model.auto.AdmissionsPublicityExample">
+    delete from admissions_publicity
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  
+  <insert id="insert" parameterType="com.fc.pilotSchool.model.auto.AdmissionsPublicity">
+    insert into admissions_publicity (
+      id,
+      publicity_time,
+      publicity_context,
+      admissions_rule,
+   	  publicity_way
+    )
+    values (
+     	#{id,jdbcType=VARCHAR},
+     	#{publicityTime,jdbcType=TIMESTAMP},
+     	#{publicityContext,jdbcType=VARCHAR},
+     	#{admissionsRule,jdbcType=VARCHAR},
+   	  #{publicityWay,jdbcType=VARCHAR}
+    )
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.fc.pilotSchool.model.auto.AdmissionsPublicity">
+    insert into admissions_publicity
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+    
+      <if test="id != null">
+        id,
+      </if>
+    
+      <if test="publicityTime != null">
+        publicity_time,
+      </if>
+    
+      <if test="publicityContext != null">
+        publicity_context,
+      </if>
+    
+      <if test="admissionsRule != null">
+        admissions_rule,
+      </if>
+    
+      <if test="publicityWay != null">
+        publicity_way,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="publicityTime != null">
+        #{publicityTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="publicityContext != null">
+        #{publicityContext,jdbcType=VARCHAR},
+      </if>
+      <if test="admissionsRule != null">
+        #{admissionsRule,jdbcType=VARCHAR},
+      </if>
+      <if test="publicityWay != null">
+        #{publicityWay,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <select id="countByExample" parameterType="com.fc.pilotSchool.model.auto.AdmissionsPublicityExample" resultType="java.lang.Long">
+    select count(*) from admissions_publicity
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  
+  <update id="updateByExampleSelective" parameterType="map">
+    update admissions_publicity
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.publicityTime != null">
+        publicity_time = #{record.publicityTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.publicityContext != null">
+        publicity_context = #{record.publicityContext,jdbcType=VARCHAR},
+      </if>
+      <if test="record.admissionsRule != null">
+        admissions_rule = #{record.admissionsRule,jdbcType=VARCHAR},
+      </if>
+      <if test="record.publicityWay != null">
+        publicity_way = #{record.publicityWay,jdbcType=VARCHAR},
+      </if>
+     
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  
+  
+  <update id="updateByExample" parameterType="map">
+    update admissions_publicity
+    set
+    	 
+    	 id = #{record.id,jdbcType=VARCHAR},
+    	 
+    	 publicity_time = #{record.publicityTime,jdbcType=TIMESTAMP},
+    	 
+    	 publicity_context = #{record.publicityContext,jdbcType=VARCHAR},
+    	 
+    	 admissions_rule = #{record.admissionsRule,jdbcType=VARCHAR},
+    	 
+    	 publicity_way = #{record.publicityWay,jdbcType=VARCHAR}
+    
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.fc.pilotSchool.model.auto.AdmissionsPublicity">
+    update admissions_publicity
+    <set>
+      
+      <if test="publicityTime != null">
+        publicity_time = #{publicityTime,jdbcType=TIMESTAMP},
+      </if>
+      
+      <if test="publicityContext != null and publicityContext != ''">
+        publicity_context = #{publicityContext,jdbcType=VARCHAR},
+      </if>
+      
+      <if test="admissionsRule != null and admissionsRule != ''">
+        admissions_rule = #{admissionsRule,jdbcType=VARCHAR},
+      </if>
+      
+      <if test="publicityWay != null and publicityWay != ''">
+        publicity_way = #{publicityWay,jdbcType=VARCHAR},
+      </if>
+    </set>
+    
+    where 
+    
+    id = #{id,jdbcType=VARCHAR}
+  
+  </update>
+
+	
+
+  <update id="updateByPrimaryKey" parameterType="com.fc.pilotSchool.model.auto.AdmissionsPublicity">
+    update admissions_publicity
+    set 
+	  
+		publicity_time = #{publicityTime,jdbcType=TIMESTAMP},
+	  
+		publicity_context = #{publicityContext,jdbcType=VARCHAR},
+	  
+		admissions_rule = #{admissionsRule,jdbcType=VARCHAR},
+		
+		publicity_way = #{publicityWay,jdbcType=VARCHAR}
+	
+    where 
+    
+    id = #{id,jdbcType=VARCHAR}
+    
+  </update>
+  
+   
+</mapper>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="include :: header('考试管理表新增')"/>
+</head>
+<body>
+<form class="layui-form">
+    <div class="mainBox">
+        <div class="main-container">
+            <div class="main-container">
+
+							<div class="layui-form-item">
+			                    <label class="layui-form-label">考试名称</label>
+			                    <div class="layui-input-block">
+			                        <input type="text" name="eName" autocomplete="off" placeholder="考试名称" class="layui-input">
+			                    </div>
+			                </div>
+		
+
+							<div class="layui-form-item">
+			                    <label class="layui-form-label">考试时间</label>
+			                    <div class="layui-input-block">
+			                        <input type="text" name="eStarttime" autocomplete="off" placeholder="考试时间" class="layui-input datetime-input">
+			                    </div>
+			                </div>
+		
+
+							<div class="layui-form-item">
+			                    <label class="layui-form-label">考试地点</label>
+			                    <div class="layui-input-block">
+			                        <input type="text" name="ePlace" autocomplete="off" placeholder="考试地点" class="layui-input">
+			                    </div>
+			                </div>
+		
+
+							<div class="layui-form-item">
+			                    <label class="layui-form-label">考试内容</label>
+			                    <div class="layui-input-block">
+			                        <input type="text" name="eContent" autocomplete="off" placeholder="考试内容" class="layui-input">
+			                    </div>
+			                </div>
+		
+
+							<div class="layui-form-item">
+			                    <label class="layui-form-label">考试科目id</label>
+			                    <div class="layui-input-block">
+<!--			                        <input type="text" name="subjectId" autocomplete="off" placeholder="考试科目id" class="layui-input">-->
+									<select lay-verify="required" name="subjectId" lay-filter="selectOnchange">
+										<option ></option>
+										<option
+												th:each="item:${courseList}"
+												th:value="${item.cId}"
+												th:text="${item.courseName}" >
+										</option>
+									</select>
+								</div>
+			                </div>
+		
+
+							<div class="layui-form-item">
+			                    <label class="layui-form-label">考试结束时间</label>
+			                    <div class="layui-input-block">
+			                        <input type="text" name="eEndtime" autocomplete="off" placeholder="考试结束时间" class="layui-input datetime-input">
+			                    </div>
+			                </div>
+		
+
+							<div class="layui-form-item">
+			                    <label class="layui-form-label">课程id</label>
+			                    <div class="layui-input-block">
+			                        <input type="text" name="coueseId" autocomplete="off" placeholder="课程id" class="layui-input">
+			                    </div>
+			                </div>
+		
+
+							<div class="layui-form-item">
+			                    <label class="layui-form-label">训练id</label>
+			                    <div class="layui-input-block">
+			                        <input type="text" name="trainingId" autocomplete="off" placeholder="训练id" class="layui-input">
+			                    </div>
+			                </div>
+		
+
+            </div>
+        </div>
+    </div>
+    <div class="bottom">
+        <div class="button-container">
+            <button type="submit" class="layui-btn layui-btn-normal layui-btn-sm" lay-submit="" lay-filter="examination-save">
+                <i class="layui-icon layui-icon-ok"></i>
+                提交
+            </button>
+            <button type="reset" class="layui-btn layui-btn-primary layui-btn-sm">
+                <i class="layui-icon layui-icon-refresh"></i>
+                重置
+            </button>
+        </div>
+    </div>
+</form>
+<th:block th:include="include :: footer"/>
+<script>
+    layui.use(['form','laydate','jquery'], function () {
+        let form = layui.form;
+        let $ = layui.jquery;
+        let MODULE_PATH = rootPath+"/ExaminationController";
+		var laydate = layui.laydate;
+        //同时绑定多个
+        lay('.datetime-input').each(function(){
+          laydate.render({
+            elem: this
+            ,trigger: 'click'
+            ,type: 'datetime'
+          });
+        });
+
+
+        //保存
+        form.on('submit(examination-save)', function (data) {
+        	let loader = layer.load();
+            $.ajax({
+                url: MODULE_PATH+'/add',
+                data: data.field,
+                dataType: 'json',
+                contentType: 'application/x-www-form-urlencoded',
+                type: 'post',
+                success: function (result) {
+                    if (result.code==200) {
+                        layer.msg(result.msg, {icon: 1, time: 1000}, function () {
+                            parent.layer.close(parent.layer.getFrameIndex(window.name));//关闭当前页
+                            parent.layui.table.reload("examination-table");
+                            layer.close(loader);
+                        });
+                    } else {
+                        layer.msg(result.msg, {icon: 2, time: 1000});
+                        layer.close(loader);
+                    }
+                }
+            })
+            return false;
+        });
+    })
+</script>
+</body>
+</html>
